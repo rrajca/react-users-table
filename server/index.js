@@ -18,8 +18,8 @@ app.use(pino);
 */
 
 // settings for jovian rest
-const username = "admin";
-const password = "admin";
+const username = "";
+const password = "";
 
 const instance = axios.create({
   httpsAgent: new https.Agent({
@@ -38,7 +38,7 @@ app.get("/api/users", (req, res) => {
   const order = req.query.order;
 
   res.setHeader("Content-Type", "application/json");
-  const url = "https://192.168.176.143:82/api/v4/users";
+  const url = "";
 
   instance
     .get(url, {
@@ -66,7 +66,7 @@ app.get("/api/users", (req, res) => {
 // add user
 app.post("/api/users", (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  const url = "https://192.168.176.143:82/api/v4/users";
+  const url = "";
 
   axios({
     method: "post",
@@ -95,7 +95,7 @@ app.post("/api/users", (req, res) => {
 // delete user
 app.delete("/api/users", (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  const url = "https://192.168.176.143:82/api/v4/users/";
+  const url = "";
   const user = req.query.user;
   const userUrl = url.concat(user);
 
