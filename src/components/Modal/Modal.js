@@ -1,10 +1,18 @@
 import ReactModal from "react-modal";
 
 ReactModal.setAppElement("#root");
-const Modal = ({ isOpen, setModalIsOpen, height, width, children }) => {
+const Modal = ({
+  isOpen,
+  setModalIsOpen,
+  onAfterClose,
+  height,
+  width,
+  children,
+}) => {
   return (
     <ReactModal
       isOpen={isOpen}
+      onAfterClose={onAfterClose}
       style={{
         overlay: {
           position: "fixed",

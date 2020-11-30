@@ -1,28 +1,24 @@
-import axios from "axios";
+import Modal from "../../components/Modal/Modal";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
-import Modal from "../../components/Modal/Modal";
-
-import { useSelector, useDispatch } from "react-redux";
-import { getUsers, selectUsers } from "../usersTable/usersSlice";
-
-const AddUserModal = ({ addUserIsOpen, setAddUserIsOpen }) => {
-  const { pageSize, pageIndex, search, sortBy } = useSelector(selectUsers);
-  const dispatch = useDispatch();
-
+const ChangePasswordModal = ({
+  changePasswordIsOpen,
+  setChangePasswordIsOpen,
+  user,
+}) => {
   return (
     <Modal
-      isOpen={addUserIsOpen}
-      setModalIsOpen={setAddUserIsOpen}
-      height="400px"
-      width="600px"
+      isOpen={changePasswordIsOpen}
+      setModalIsOpen={setChangePasswordIsOpen}
+      //   onAfterClose={handleAfterClose}
+      height="250px"
+      width="400px"
     >
-      <h1>User settings</h1>
       <Formik
-        initialValues={{ name: "", password: "", passwd_confirm: "" }}
+        initialValues={{ password: "", passwd_confirm: "" }}
         validationSchema={Yup.object().shape({
-          name: Yup.string().required("Required"),
           password: Yup.string()
             .min(6, "Min 6 characters")
             .required("Required"),
@@ -33,20 +29,12 @@ const AddUserModal = ({ addUserIsOpen, setAddUserIsOpen }) => {
         })}
         onSubmit={(values, { setSubmitting }) => {
           axios
-            .post("/api/users", {
-              name: values.name,
+            .put("/api/users", {
+              user,
               password: values.password,
-              backend_name: "LDAP",
             })
             .then((response) => {
-              setAddUserIsOpen(false);
-
-              // timeout simulate userevent from system
-              setTimeout(
-                () => dispatch(getUsers(pageSize, pageIndex, search, sortBy)),
-                7000
-              );
-
+              setChangePasswordIsOpen(false);
               setSubmitting(false);
             })
             .catch((error) => {
@@ -57,15 +45,6 @@ const AddUserModal = ({ addUserIsOpen, setAddUserIsOpen }) => {
       >
         {({ errors, touched, isSubmitting }) => (
           <Form>
-            <div className="inputWrapper">
-              <label htmlFor="name">Name:</label>
-              <Field id="name" name="name" />
-              {errors.name && touched.name ? (
-                <span className="hiddenLabel validationError">
-                  {errors.name}
-                </span>
-              ) : null}
-            </div>
             <div className="inputWrapper">
               <label htmlFor="password">Password:</label>
               <Field id="password" type="password" name="password" />
@@ -98,4 +77,4 @@ const AddUserModal = ({ addUserIsOpen, setAddUserIsOpen }) => {
   );
 };
 
-export default AddUserModal;
+export default ChangePasswordModal;

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTable, usePagination, useSortBy } from "react-table";
+import { useTranslation } from "react-i18next";
 
 function Table({
   columns,
@@ -9,6 +10,7 @@ function Table({
   loading,
   pageCount: controlledPageCount,
 }) {
+  const { t } = useTranslation();
   const {
     getTableProps,
     getTableBodyProps,
@@ -97,7 +99,11 @@ function Table({
               <td colSpan="10000">Loading...</td>
             ) : (
               <td colSpan="10000">
-                Showing {page.length} of {dataCount} results
+                {t("showingOfResults", {
+                  number: page.length,
+                  results: dataCount,
+                })}
+                {/* Showing {page.length} of {dataCount} results */}
               </td>
             )}
           </tr>

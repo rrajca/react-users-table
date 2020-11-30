@@ -1,0 +1,9 @@
+{
+    "usersManager": "Users manager",
+    "addUser.button" : "Add user",
+    "name.label" : "Name",
+    "uid.label" : "uid",
+    "options.label" : "Options",
+    "showingOfResults" : "Showing {{number}} of {{results}} results"
+
+}

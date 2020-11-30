@@ -4,7 +4,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUsers, selectUsers } from "../usersTable/usersSlice";
 import Modal from "../../components/Modal/Modal";
 
-const RemoveUserModal = ({ removeUserIsOpen, setRemoveUserIsOpen, user }) => {
+const RemoveUserModal = ({
+  removeUserIsOpen,
+  setRemoveUserIsOpen,
+  user,
+  setSelectedUserToAction,
+}) => {
   const { pageSize, pageIndex, search, sortBy } = useSelector(selectUsers);
   const dispatch = useDispatch();
 
@@ -37,10 +42,15 @@ const RemoveUserModal = ({ removeUserIsOpen, setRemoveUserIsOpen, user }) => {
       .catch((error) => console.log(error));
   };
 
+  const handleAfterClose = () => {
+    setSelectedUserToAction("");
+  };
+
   return (
     <Modal
       isOpen={removeUserIsOpen}
       setModalIsOpen={setRemoveUserIsOpen}
+      onAfterClose={handleAfterClose}
       height="250px"
       width="560px"
     >

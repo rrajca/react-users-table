@@ -18,8 +18,8 @@ app.use(pino);
 */
 
 // settings for jovian rest
-const username = "";
-const password = "";
+const username = "admin";
+const password = "admin";
 
 const instance = axios.create({
   httpsAgent: new https.Agent({
@@ -38,7 +38,7 @@ app.get("/api/users", (req, res) => {
   const order = req.query.order;
 
   res.setHeader("Content-Type", "application/json");
-  const url = "";
+  const url = "https://192.168.176.143:82/api/v4/users";
 
   instance
     .get(url, {
@@ -66,7 +66,7 @@ app.get("/api/users", (req, res) => {
 // add user
 app.post("/api/users", (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  const url = "";
+  const url = "https://192.168.176.143:82/api/v4/users";
 
   axios({
     method: "post",
@@ -95,18 +95,45 @@ app.post("/api/users", (req, res) => {
 // delete user
 app.delete("/api/users", (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  const url = "";
   const user = req.query.user;
-  const userUrl = url.concat(user);
+  const url = `https://192.168.176.143:82/api/v4/users/${user}`;
 
   axios({
     method: "delete",
-    url: userUrl,
+    url: url,
     httpsAgent: new https.Agent({
       rejectUnauthorized: false,
     }),
     headers: {
       Authorization: `Basic ${token}`,
+    },
+  })
+    .then(function (response) {
+      res.send(JSON.stringify(response));
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(JSON.stringify(err));
+    });
+});
+
+// update user
+app.put("/api/users", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  const user = req.body.user;
+  const url = `https://192.168.176.143:82/api/v4/users/${user}/password`;
+
+  axios({
+    method: "put",
+    url: url,
+    httpsAgent: new https.Agent({
+      rejectUnauthorized: false,
+    }),
+    headers: {
+      Authorization: `Basic ${token}`,
+    },
+    data: {
+      password: req.body.password,
     },
   })
     .then(function (response) {
